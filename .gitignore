@@ -1,0 +1,9 @@
+._new.c
+._newdir.c
+._rmall.c
+._tsh.c
+._util.c
+._util.h
+inf3172/
+*.o
+
