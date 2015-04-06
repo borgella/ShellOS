@@ -242,9 +242,7 @@ leSizeEst(char *folder){
 			afficherErrnoCd();
 			exit(1);
 		}
-    }else
-		fprintf(stderr,"Répertoire introuvable.\n");
-				
+    }				
     chdir("..");
     closedir(repertoire);
 	return size;
