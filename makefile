@@ -1,6 +1,6 @@
 #--------------------------
 #Declaration des variables
-prefix =~/inf3172/bin
+prefix =~/BORJ15048201/inf3172/bin
 CC = gcc
 CFLAGS = -Wall -std=c99 -g
 LDFLAGS = -lm

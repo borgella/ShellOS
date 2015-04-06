@@ -16,7 +16,7 @@ int main(int agrc, char*argv[]){
         int reussite;
         int taille = tailleTableauDArguments(argv[1]) - 1;
         arguments = creerArguments(argv[1]);
-		if(taille == 0){
+		if(taille > 0){
 			chdir(arguments[taille-1]);
 			reussite = mkdir(arguments[taille],0777);
 			if(reussite == -1)
