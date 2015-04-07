@@ -85,7 +85,7 @@ int
 estDansLaListeDeCommande(char *chaine){
     return ((strncmp(chaine,"size",4) == 0) || ((strncmp(chaine,"list",4) == 0)) || ((strncmp(chaine,"cd",2) == 0))||
 		((strncmp(chaine,"cdir",4) == 0)) || ((strncmp(chaine,"new",3) == 0)) || ((strncmp(chaine,"newdir",6) == 0))
-		||	((strncmp(chaine,"rmall",5) == 0)));
+		||	((strncmp(chaine,"rmall",5) == 0)) || 	((strncmp(chaine,"exit",4) == 0)));
 }
 
 int

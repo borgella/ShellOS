@@ -17,7 +17,6 @@ int main(int argc, char **argv)
     int tailleCommande, etat;
     pid_t enfant;
     printf("tsh>");
-
     while(1)
     {
         fgets(tampon, LIMITE, stdin);
@@ -28,12 +27,13 @@ int main(int argc, char **argv)
             wait(&etat);
         }
         else
-        {   tailleCommande = tailleTableauDArguments(tampon);
+        {   
+			tailleCommande = tailleTableauDArguments(tampon);
             if (tailleCommande >= 1) {
                 arguments = creerArguments(tampon);
-                if(commandeValide(arguments,tailleCommande))
+                if(commandeValide(arguments,tailleCommande)){
 					execve(arguments[0],arguments,NULL);
-                else
+                }else
                     fprintf(stderr,"Programme introuvable.\n");
             }
             else

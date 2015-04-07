@@ -12,17 +12,17 @@
 #include "fonction.h"
 
 int main(int agrc, char*argv[]){
-        int etat;
-        errno = 0;
-        if(fork()){
-                wait(&etat);
-        }else{
-            char tampon[256];
-            getcwd(tampon,256);
-            if(tampon != NULL)
-                printf("Répertoire courant : %s \n", tampon);
-            else
-                afficherErrnoCdir();
-        }
+    int etat;
+    errno = 0;
+    if(fork()){
+        wait(&etat);
+    }else{
+        char tampon[256];
+        getcwd(tampon,256);
+        if(tampon != NULL)
+            printf("Répertoire courant : %s \n", tampon);
+        else
+            afficherErrnoCdir();
+    }
         return 0;
 }

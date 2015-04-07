@@ -16,7 +16,7 @@ int main(int agrc, char*argv[]){
         int etat;
         if(fork()){
 			wait(&etat);
-        }else{
+		}else{
             int reussite;
             reussite = chdir(argv[1]);
             if(reussite)

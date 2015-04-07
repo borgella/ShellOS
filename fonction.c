@@ -102,7 +102,7 @@ creerArguments(char *tampon){
     indiceArgument = indiceChaine = indiceTampon = tiret = 0;
     char **arguments = malloc(tailleArgument * sizeof(char *));
     char *chaine = malloc(tailleChaine * sizeof(char));
-                if (arguments != NULL && chaine != NULL) {
+		if (arguments != NULL && chaine != NULL) {
             while(indiceTampon < strlen(tampon)){
                 if(tampon[indiceTampon] != '/'){
                     chaine[indiceChaine++] = tampon[indiceTampon++];
@@ -112,29 +112,28 @@ creerArguments(char *tampon){
                     strcpy(arguments[indiceArgument++],chaine);
                     indiceChaine = 0;
                     indiceTampon++;
-                }
+				}
             }
-                        chaine[indiceChaine] = '\0';
-                        arguments[indiceArgument] = malloc(indiceChaine * sizeof(char));
-                        strcpy(arguments[indiceArgument++],chaine);
-                    free(chaine);
-        }else
-                        {
-                           fprintf(stderr,"Erreur d'allocation.\n");
-                        }
+             chaine[indiceChaine] = '\0';
+             arguments[indiceArgument] = malloc(indiceChaine * sizeof(char));
+             strcpy(arguments[indiceArgument++],chaine);
+             free(chaine);
+        }else{
+             fprintf(stderr,"Erreur d'allocation.\n");
+        }
 
-        return arguments;
+   return arguments;
 }
 
 int
 tailleTableauDArguments(char *tampon){
     int i = 0, j = 0;
-        while(i < strlen(tampon)){
-            if(tampon[i] == '/')
-                j++;
-                        i++;
-        }
-        j++;
+      while(i < strlen(tampon)){
+         if(tampon[i] == '/')
+             j++;
+         i++;
+      }
+      j++;
     return j;
 }
 
