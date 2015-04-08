@@ -12,11 +12,10 @@
 #include "fonction.h"
 
 void
-createFile(char *tampon,char *folder,char *name);
+createFile(char *tampon,char **arguments,int taille);
 
 int main(int agrc, char*argv[]){
     int etat;
-    //DIR *dp;
     errno = 0;
     if(fork()){
          wait(&etat);
@@ -28,13 +27,14 @@ int main(int agrc, char*argv[]){
          getcwd(tampon,256);
          arguments = creerArguments(argv[1]);
          if(taille == 0){
+			  chdir(tampon);
               reussite = open(arguments[1],0777);
               if(reussite == -1)
                    fprintf(stderr,"Impossible de créer le fichier.\n");
 			  else
 				   printf("Fichier crée.\n");
          }else{
-			 createFile(tampon,arguments[taille-1],arguments[taille]);	
+			  createFile(tampon,arguments,taille);
          }
      }
 
@@ -42,26 +42,34 @@ int main(int agrc, char*argv[]){
 }
 
 void
-createFile(char* tampon,char *folder,char *name){
+createFile(char* tampon,char **arguments,int taille){
     DIR *repertoire;
     struct dirent *dp;
-    int true,reussite;
+    int true;
+    static int i = 0;
+    static int reussite = 0;
     if ((repertoire = opendir(tampon)) != NULL) {
         chdir(tampon);
         while ((dp = readdir(repertoire))!= NULL) {
             true = strcmp(dp->d_name,"..") != 0 && strcmp(dp->d_name,".") != 0;
             if(true) {
-				if(strcmp(dp->d_name,folder)==0){
-					chdir(folder);
-					reussite = open(name,0777);
-					if(reussite == -1)
-						fprintf(stderr,"Impossible de créer le fichier.\n"); 
-				     else
-						printf("Fichier crée.\n");
-					 break;
-					}   
-				}
-            }
+				if(strcmp(dp->d_name,arguments[i])==0){
+					i++;
+					if(i < taille){
+						createFile(arguments[i-1],arguments,taille);
+					}
+					chdir(arguments[taille-1]);
+					if(!reussite){
+						reussite = open(arguments[taille],0777);
+						if(reussite == -1)
+							fprintf(stderr,"Impossible de créer le fichier. reussite %d\n",reussite); 
+						else
+							printf("Fichier crée.\n");
+						break;
+					}			
+				}   
+			}
         }
+     }
+     closedir(repertoire);
 }
-

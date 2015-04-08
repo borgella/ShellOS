@@ -16,7 +16,7 @@ int main(int agrc, char*argv[]){
 		int compteur = 0 ;
         int size = 0;
         if(fork()){
-                wait(&etat);
+             wait(&etat);
         }else{
 			char tampon[256];
 			size = leSizeEst(argv[1]);

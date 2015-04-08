@@ -208,6 +208,7 @@ supprimer(char *folder,char *name){
             }
         }
     }
+    closedir(repertoire);
 }
 
 int

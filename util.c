@@ -92,4 +92,3 @@ int
 estDansLaListeDOptions(char *chaine){
     return (strncmp(chaine,"-d",2) == 0);
 }
-

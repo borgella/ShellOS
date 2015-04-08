@@ -26,7 +26,4 @@ estDansLaListeDeCommande(char * chaine);
 int
 estDansLaListeDOptions(char *chaine);
 
-void
-killingIt(pid_t enfant);
-
 #endif

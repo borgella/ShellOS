@@ -5,6 +5,6 @@
 
 int main(int agrc, char*argv[]){
 	
-	int etat = kill(getppid(),SIGKILL);	
+	kill(getppid(),SIGKILL);	
     return 0;
 }
