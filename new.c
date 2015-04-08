@@ -27,14 +27,14 @@ int main(int agrc, char*argv[]){
          getcwd(tampon,256);
          arguments = creerArguments(argv[1]);
          if(taille == 0){
-			  chdir(tampon);
-              reussite = open(arguments[1],0777);
+			  chdir(arguments[taille-1]);
+              reussite = open(arguments[taille],0777);
               if(reussite == -1)
                    fprintf(stderr,"Impossible de créer le fichier.\n");
 			  else
 				   printf("Fichier crée.\n");
          }else{
-			  createFile(tampon,arguments,taille);
+			createFile(tampon,arguments,taille);	
          }
      }
 

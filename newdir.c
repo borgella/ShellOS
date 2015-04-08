@@ -29,12 +29,8 @@ int main(int agrc, char*argv[]){
 			fprintf(stderr,"Impossible de créer  le répertoire.\n");
 		else
 			printf("Repertoire crée.\n");
-	}else{
-		createFolder(tampon,arguments,taille);	
-		
-			
-			
-	}
+	}else
+		createFolder(tampon,arguments,taille);				
 	return 0;
 }
 

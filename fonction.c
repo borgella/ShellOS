@@ -228,9 +228,9 @@ leSizeEst(char *folder){
                     if (!true) {
                         if (S_ISDIR(infos.st_mode))
                              leSizeEst(dp->d_name);
-                        else{
+                        else
 							size += infos.st_size;
-						}
+						
                     }else{
 						fprintf(stderr,"Impossible de lire les infos du fichier.\n");
 						break;
