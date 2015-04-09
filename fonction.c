@@ -47,49 +47,49 @@ afficherErrnoCdir(){
 
 void
 liste(char *tampon){
-        DIR *repertoire;
-        struct dirent *dp;
-        int true;
-        if((repertoire = opendir(tampon)) != NULL ){
-                while((dp = readdir(repertoire)) != NULL){
-                        true = strcmp(dp->d_name,"..") != 0 && strcmp(dp->d_name,".") != 0;
-                        if(true)
-                                printf("%s\n",dp->d_name);
-                }
+    DIR *repertoire;
+    struct dirent *dp;
+    int true;
+    if((repertoire = opendir(tampon)) != NULL ){
+       while((dp = readdir(repertoire)) != NULL){
+            true = strcmp(dp->d_name,"..") != 0 && strcmp(dp->d_name,".") != 0;
+            if(true)
+                printf("%s\n",dp->d_name);
         }
-        closedir(repertoire);
+    }
+   closedir(repertoire);
 }
 
 void
 listeAvecMoinsD(char *tampon){
-        DIR *repertoire;
-        struct dirent *dp;
-        struct stat infos;
-        int true;
-        if((repertoire = opendir(tampon)) != NULL){
-                printf("%s\n",tampon);
-                true = chdir(tampon);
-                if(!true){
-                    while ((dp = readdir(repertoire)) != NULL){
-						true = (strcmp(dp->d_name,"..") != 0) && (strcmp(dp->d_name,".") != 0);
-						if(true){
-							true = stat(dp->d_name, &infos);
-							if(!true){
-								if(S_ISDIR(infos.st_mode))
-									listeAvecMoinsD(dp->d_name);
-								else
-									printf("%s \n", dp->d_name);
-							}else{
-								fprintf(stderr,"Impossible de lire les informations du fichier.\n");
-								break;
-							}
+   DIR *repertoire;
+   struct dirent *dp;
+   struct stat infos;
+   int true;
+   if((repertoire = opendir(tampon)) != NULL){
+      printf("%s\n",tampon);
+      true = chdir(tampon);
+      if(!true){
+          while((dp = readdir(repertoire)) != NULL){
+			  true = (strcmp(dp->d_name,"..") != 0) && (strcmp(dp->d_name,".") != 0);
+			  if(true){
+				  true = stat(dp->d_name, &infos);
+				  if(!true){
+					 if(S_ISDIR(infos.st_mode))
+					    listeAvecMoinsD(dp->d_name);
+					 else
+					 	 printf("%s \n", dp->d_name);
+				  }else{
+						fprintf(stderr,"Impossible de lire les informations du fichier.\n");
+						break;
 						}
-					}  
-                }else{
-					afficherErrnoCd();
-                    exit(1);
 				}
-        }	
+		    }  
+	  }else{
+			afficherErrnoCd();
+			exit(1);
+		}
+    }	
     chdir("..");
     closedir(repertoire);
 }
@@ -176,7 +176,7 @@ removeRepertoire(char *folder){
     struct stat infos;
     int true;
     if ((repertoire = opendir(folder)) != NULL) {
-        chdir(folder);
+        chdir(folder);   
         while ((dp = readdir(repertoire))!= NULL) {
             true = strcmp(dp->d_name,"..") != 0 && strcmp(dp->d_name,".") != 0;
             if(true) {
@@ -184,15 +184,14 @@ removeRepertoire(char *folder){
 				if(!true){
 					if(S_ISDIR(infos.st_mode)){
 						removeRepertoire(dp->d_name);
-					}else{
-						printf("Je suppirme des repertoires %s \n",dp->d_name);
+						chmod(dp->d_name,0777);
+						chdir("..");
 						rmdir(dp->d_name);
 					}
 				}
-            }
+            } 
         }
     }
-    chdir("..");
     closedir(repertoire);
 }
 
@@ -246,7 +245,7 @@ createFolder(char* tampon,char **arguments,int taille){
 			}
         }
      }
-     chdir(".."); // ce ligne a ete ajouter pour resoudre le bog du message meme quand le repertoire a ete cree ?
+     chdir("..");
      closedir(repertoire);
 }
 

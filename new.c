@@ -62,7 +62,7 @@ createFile(char* tampon,char **arguments,int taille){
 					if(!reussite){
 						reussite = open(arguments[taille],0777);
 						if(reussite == -1)
-							fprintf(stderr,"Impossible de créer le fichier. reussite %d\n",reussite); 
+							fprintf(stderr,"Impossible de créer le fichier.\n"); 
 						else
 							printf("Fichier crée.\n");
 						break;

@@ -44,4 +44,8 @@ leSizeEst(char *folder);
 int
 nombreFichiers(char *folder);
 
+
+void
+createFolder(char* tampon,char **arguments,int taille);
+
 #endif
