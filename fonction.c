@@ -143,7 +143,6 @@ removeFile(char *folder){
     struct dirent *dp;
     struct stat infos;
     int true;
-    
     if ((repertoire = opendir(folder)) != NULL) {
         true = chdir(folder);
         if (!true) {
@@ -156,20 +155,15 @@ removeFile(char *folder){
                              removeFile(dp->d_name);
                         else
                             unlink(dp->d_name);
-                    }else{
-						fprintf(stderr,"Impossible de lire les informations du fichier.\n");
-						break;
-					}
-                    
+                    }                    
                 }
-            }
+             }
         }else{
 			afficherErrnoCd();
 			exit(1);
-		}
-    }else
+			}
+     }else
         fprintf(stderr,"Répertoire introuvable.\n");
-    
     chdir("..");
     closedir(repertoire);
 }
@@ -179,16 +173,27 @@ void
 removeRepertoire(char *folder){
     DIR *repertoire;
     struct dirent *dp;
+    struct stat infos;
     int true;
     if ((repertoire = opendir(folder)) != NULL) {
         chdir(folder);
         while ((dp = readdir(repertoire))!= NULL) {
             true = strcmp(dp->d_name,"..") != 0 && strcmp(dp->d_name,".") != 0;
             if(true) {
-                rmdir(dp->d_name);
+				true = stat(dp->d_name,&infos);
+				if(!true){
+					if(S_ISDIR(infos.st_mode)){
+						removeRepertoire(dp->d_name);
+					}else{
+						printf("Je suppirme des repertoires %s \n",dp->d_name);
+						rmdir(dp->d_name);
+					}
+				}
             }
         }
     }
+    chdir("..");
+    closedir(repertoire);
 }
 
 void
@@ -210,6 +215,42 @@ supprimer(char *folder,char *name){
     }
     closedir(repertoire);
 }
+
+void
+createFolder(char* tampon,char **arguments,int taille){
+    DIR *repertoire;
+    struct dirent *dp;
+    int true;
+    static int i = 0;
+    static int reussite = 0;
+    if ((repertoire = opendir(tampon)) != NULL) {
+        chdir(tampon);
+        while ((dp = readdir(repertoire))!= NULL) {
+            true = strcmp(dp->d_name,"..") != 0 && strcmp(dp->d_name,".") != 0;
+            if(true) {
+				if(strcmp(dp->d_name,arguments[i])==0){
+					i++;
+					if(i < taille){
+						createFolder(arguments[i-1],arguments,taille);
+					}
+					chdir(arguments[taille-1]);
+					if(!reussite){
+						reussite = mkdir(arguments[taille],0777);
+						if(reussite == -1)
+							fprintf(stderr,"Impossible de créer le répertoire.\n"); 
+						else
+							printf("Répertoire créé.\n");
+						break;
+					}			
+				}   
+			}
+        }
+     }
+     chdir(".."); // ce ligne a ete ajouter pour resoudre le bog du message meme quand le repertoire a ete cree ?
+     closedir(repertoire);
+}
+
+
 
 int
 leSizeEst(char *folder){
