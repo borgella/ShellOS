@@ -257,20 +257,23 @@ leSizeEst(char *folder){
     struct dirent *dp;
     struct stat infos;
     int true;
-	static int size = 0;
-    if ((repertoire = opendir(folder)) != NULL) {
+    char tampon[256];
+	static int size = 1;
+	if ((repertoire = opendir(folder)) != NULL) {
         true = chdir(folder);
+        getcwd(tampon,256);
         if (!true) {
             while ((dp = readdir(repertoire))!= NULL) {
                 true = strcmp(dp->d_name,"..") != 0 && strcmp(dp->d_name,".") != 0;
                 if(true) {
                     true = stat(dp->d_name,&infos);
                     if (!true) {
-                        if (S_ISDIR(infos.st_mode))
+                        if(S_ISDIR(infos.st_mode)){
+							 size += infos.st_size; 
                              leSizeEst(dp->d_name);
-                        else
+                        }else{
 							size += infos.st_size;
-						
+						}
                     }else{
 						fprintf(stderr,"Impossible de lire les infos du fichier.\n");
 						break;
@@ -304,9 +307,10 @@ nombreFichiers(char *folder){
                     true = stat(dp->d_name,&infos);
                     if (!true) {
                         if (S_ISDIR(infos.st_mode)){
+							size++;
 							nombreFichiers(dp->d_name);
 						}else
-							size++;
+						    size++;
 					}
                     
                 }
