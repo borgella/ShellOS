@@ -239,7 +239,7 @@ createFolder(char* tampon,char **arguments,int taille){
 							fprintf(stderr,"Impossible de créer le répertoire.\n"); 
 						else
 							printf("Répertoire créé.\n");
-						break;
+							exit(0);
 					}			
 				}   
 			}
