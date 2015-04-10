@@ -20,7 +20,7 @@ int main(int agrc, char*argv[]){
 		compteur = nombreFichiers(argv[1]);
 		chdir(argv[1]);
 		getcwd(tampon,256);
-		printf("Le répertoire %s contient %d fichiers pour un total de %d octets .\n",tampon,compteur,size);
+		printf("Le répertoire %s contient %d fichiers pour un total de %d octets.\n",tampon,compteur,size);
 	}else if (size == 0)
 		printf("Le répertoire est vide.\n");
 	

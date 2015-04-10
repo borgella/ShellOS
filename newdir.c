@@ -24,7 +24,7 @@ int main(int agrc, char*argv[]){
 		chdir(arguments[taille-1]);
 		reussite = mkdir(arguments[taille],0777);
 		if(reussite == -1)
-			fprintf(stderr,"Impossible de créer  le répertoire.\n");
+			fprintf(stderr,"Impossible de créer le répertoire.\n");
 		else
 			printf("Repertoire crée.\n");
 	}else
