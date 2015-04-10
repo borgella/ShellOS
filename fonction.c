@@ -226,27 +226,30 @@ createFolder(char* tampon,char **arguments,int taille){
         chdir(tampon);
         while ((dp = readdir(repertoire))!= NULL) {
             true = strcmp(dp->d_name,"..") != 0 && strcmp(dp->d_name,".") != 0;
-            if(true) {
+            if(true){
 				if(strcmp(dp->d_name,arguments[i])==0){
 					i++;
 					if(i < taille){
 						createFolder(arguments[i-1],arguments,taille);
 					}
-					chdir(arguments[taille-1]);
+					reussite = chdir(arguments[taille-1]);
 					if(!reussite){
-						reussite = mkdir(arguments[taille],0777);
-						if(reussite == -1)
-							fprintf(stderr,"Impossible de créer le répertoire.\n"); 
-						else
-							printf("Répertoire créé.\n");
-							exit(0);
+                		 reussite = mkdir(arguments[taille],0777);
+						 if(reussite == -1)
+						     fprintf(stderr,"Impossible de créer le répertoire.\n"); 
+					     else
+							 printf("Répertoire créé.\n");
+					     exit(0);
+					}else{
+						fprintf(stderr,"Impossible de créer le répertoire.\n");
+						exit(0);
 					}			
-				}   
+				}		
 			}
         }
      }
-     chdir("..");
-     closedir(repertoire);
+    chdir("..");
+    closedir(repertoire);
 }
 
 
