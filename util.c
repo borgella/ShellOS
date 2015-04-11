@@ -15,10 +15,9 @@ creerArguments(char *tampon){
     int tailleArgument = tailleTableauDArguments(tampon) + 1; // pour ajouter le NULL
     int tailleChaine = nombreDeCaractereSaisi(tampon);
     int indiceTampon, indiceArgument, indiceChaine;
-    indiceArgument = indiceChaine = indiceTampon = 0;
     char **arguments = malloc((tailleArgument + 1) * sizeof(char *));
     char *chaine = malloc(tailleChaine * sizeof(char));
-    
+		indiceArgument = indiceChaine = indiceTampon = 0;
         if (arguments != NULL && chaine != NULL) {
             while(tampon[indiceTampon] != '\0'){
                 if(tampon[indiceTampon] != ' ' && tampon[indiceTampon] != '\n'){
@@ -82,10 +81,17 @@ commandeValide(char **tampon,int taille){
 }
 
 int
-estDansLaListeDeCommande(char *chaine){
-    return ((strncmp(chaine,"size",4) == 0) || ((strncmp(chaine,"list",4) == 0)) || ((strncmp(chaine,"cd",2) == 0))||
-		((strncmp(chaine,"cdir",4) == 0)) || ((strncmp(chaine,"new",3) == 0)) || ((strncmp(chaine,"newdir",6) == 0))
-		||	((strncmp(chaine,"rmall",5) == 0)) || 	((strncmp(chaine,"exit",4) == 0)));
+estDansLaListeDeCommande(char *uneCommande){
+    int i = 0,taille = 11;
+	char *listeCommande[] = {"lc","list","size","cdir","new","newdir",
+							 "rmall","exit","edit","fin","cd",NULL};
+							 
+		while(listeCommande[i]!= NULL){
+			if((strcmp(listeCommande[i],uneCommande) == 0))
+					break;
+			i++;	
+		}						 
+	return ++i < taille;
 }
 
 int

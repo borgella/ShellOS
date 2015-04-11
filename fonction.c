@@ -13,35 +13,23 @@
 
 void
 afficherErrnoCd(){
-    if(errno == EACCES){
-        fprintf(stderr,"Permission Insuffisantes.\n");
-    }else if(errno == ENOENT){
-        fprintf(stderr,"cd /inexistant \nRépertoire introuvable\n");
-    }else if(errno == ENOTDIR){
-        fprintf(stderr,"Un des chemins n'est pas un répertoire.\n");
-    }else if(errno == ENOMEM){
-        fprintf(stderr,"Il n'y a pas assez de memoire pour allouer une structure.\n");
-    }else if(errno == ENAMETOOLONG){
-        fprintf(stderr,"L'argument est trop long que le chemin.\n");
-    }else if(errno == ELOOP){
-        fprintf(stderr,"Trop de niveaux de liens ou de préfixes.\n");
+    if(errno == EACCES){ fprintf(stderr,"Permission Insuffisantes.\n");
+    }else if(errno == ENOENT){  fprintf(stderr,"cd /inexistant \nRépertoire introuvable\n");
+    }else if(errno == ENOTDIR){ fprintf(stderr,"Un des chemins n'est pas un répertoire.\n");
+    }else if(errno == ENOMEM){  fprintf(stderr,"Il n'y a pas assez de memoire pour allouer une structure.\n");
+    }else if(errno == ENAMETOOLONG){ fprintf(stderr,"L'argument est trop long que le chemin.\n");
+    }else if(errno == ELOOP){  fprintf(stderr,"Trop de niveaux de liens ou de préfixes.\n");
     }
 }
 
 void
 afficherErrnoCdir(){
-    if(errno == EACCES){
-        fprintf(stderr,"Impossible de lire le chemin.\n");
-    }else if(errno == ENOENT){
-        fprintf(stderr,"cd /inexistant \nRépertoire introuvable\n");
-    }else if(errno == EFAULT){
-        fprintf(stderr,"Le tampon pointe sur une addresse illégale.\n");
-    }else if(errno == EINVAL){
-        fprintf(stderr,"Le tampon pointe sur une adresse null.\n");
-    }else if(errno == ENAMETOOLONG){
-        fprintf(stderr,"L'argument est trop long que le chemin.\n");
-    }else if(errno == ELOOP){
-        fprintf(stderr,"Trop de niveaux de liens ou préfixes.\n");
+    if(errno == EACCES){       fprintf(stderr,"Impossible de lire le chemin.\n");
+    }else if(errno == ENOENT){ fprintf(stderr,"cd /inexistant \nRépertoire introuvable\n");
+    }else if(errno == EFAULT){ fprintf(stderr,"Le tampon pointe sur une addresse illégale.\n");
+    }else if(errno == EINVAL){ fprintf(stderr,"Le tampon pointe sur une adresse null.\n");
+    }else if(errno == ENAMETOOLONG){ fprintf(stderr,"L'argument est trop long que le chemin.\n");
+    }else if(errno == ELOOP){ fprintf(stderr,"Trop de niveaux de liens ou préfixes.\n");
     }
 }
 
@@ -82,8 +70,8 @@ listeAvecMoinsD(char *tampon){
 				  }else{
 						fprintf(stderr,"Impossible de lire les informations du fichier.\n");
 						break;
-						}
-				}
+				  }
+			   }
 		    }  
 	  }else{
 			afficherErrnoCd();
@@ -118,10 +106,7 @@ creerArguments(char *tampon){
              arguments[indiceArgument] = malloc(indiceChaine * sizeof(char));
              strcpy(arguments[indiceArgument++],chaine);
              free(chaine);
-        }else{
-             fprintf(stderr,"Erreur d'allocation.\n");
-        }
-
+        }else fprintf(stderr,"Erreur d'allocation.\n");
    return arguments;
 }
 
@@ -162,8 +147,7 @@ removeFile(char *folder){
 			afficherErrnoCd();
 			exit(1);
 			}
-     }else
-        fprintf(stderr,"Répertoire introuvable.\n");
+     }else fprintf(stderr,"Répertoire introuvable.\n");
     chdir("..");
     closedir(repertoire);
 }
@@ -237,8 +221,7 @@ createFolder(char* tampon,char **arguments,int taille){
                 		 reussite = mkdir(arguments[taille],0777);
 						 if(reussite == -1)
 						     fprintf(stderr,"Impossible de créer le répertoire.\n"); 
-					     else
-							 printf("Répertoire créé.\n");
+					     else printf("Répertoire créé.\n");
 					     exit(0);
 					}else{
 						fprintf(stderr,"Impossible de créer le répertoire.\n");
@@ -288,7 +271,7 @@ leSizeEst(char *folder){
 			afficherErrnoCd();
 			exit(1);
 		}
-    }				
+    }else fprintf(stderr,"Répertoire introuvable.\n");				
     chdir("..");
     closedir(repertoire);
 	return size;
@@ -324,3 +307,5 @@ nombreFichiers(char *folder){
     closedir(repertoire);
 	return size;
 }
+
+

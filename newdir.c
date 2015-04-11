@@ -25,9 +25,8 @@ int main(int agrc, char*argv[]){
 		reussite = mkdir(arguments[taille],0777);
 		if(reussite == -1)
 			fprintf(stderr,"Impossible de créer le répertoire.\n");
-		else
-			printf("Repertoire crée.\n");
-	}else
+		else printf("Repertoire crée.\n");
+	}else 
 		createFolder(tampon,arguments,taille);				
 	return 0;
 }

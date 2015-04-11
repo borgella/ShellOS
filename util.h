@@ -26,4 +26,7 @@ estDansLaListeDeCommande(char * chaine);
 int
 estDansLaListeDOptions(char *chaine);
 
+void
+afficherArgum(char **argu,int taille);
+
 #endif
