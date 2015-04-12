@@ -3,9 +3,15 @@
 //  Created by Borgella, Jean-Mary on 2015-03-02.
 //
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 #include <signal.h>
+#include <string.h>
+#include <stdlib.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
+#include <sys/wait.h>
+#include <fcntl.h>
+#include <dirent.h>
 #include <errno.h>
 #include "util.h"
 
@@ -38,7 +44,7 @@ creerArguments(char *tampon){
 			}
     return arguments;
 }
-//cette fonction retour la taille du tableau a prevoir pour la commande tape par l utilisateur
+//cette fonction retourne la taille du tableau a prevoir pour la commande tape par l utilisateur
 int
 tailleTableauDArguments(char *tampon){
     int i = 0, j = 0;
@@ -82,19 +88,68 @@ commandeValide(char **tampon,int taille){
 
 int
 estDansLaListeDeCommande(char *uneCommande){
-    int i = 0,taille = 11;
-	char *listeCommande[] = {"lc","list","size","cdir","new","newdir",
-							 "rmall","exit","edit","fin","cd",NULL};
-							 
-		while(listeCommande[i]!= NULL){
-			if((strcmp(listeCommande[i],uneCommande) == 0))
-					break;
-			i++;	
-		}						 
-	return ++i < taille;
+    int i = 0,taille = 8;
+	char *listeCommande[] = {"lc","list","size","new","newdir",
+							 "rmall","edit","fin",NULL};
+	while(listeCommande[i]!= NULL){
+		if((strcmp(listeCommande[i],uneCommande) == 0))
+		 	 break;
+		i++;	
+	}						 
+	return i < taille;
 }
+
 
 int
 estDansLaListeDOptions(char *chaine){
     return (strncmp(chaine,"-d",2) == 0);
+}
+
+void
+executerCommandeTsh(int argc,char **argv){
+	printf("Verifions la taille %d\n",argc);
+	if(strcmp(argv[0],"cd") == 0){
+		commandeCd(argv);
+	}else if(strcmp(argv[0],"cdir") == 0){
+		commandeCdir(argv);
+	}else if (strcmp(argv[0],"exit") == 0){
+		commandeExit(argv);
+	}
+}	
+
+void
+commandeCd(int argc,char **argv){
+	if(argc < 2 || argc > 2){
+		fprintf(stderr,"Erreur,cette commande exige un et un seul argument.");
+	}else {
+		if(chdir(argv[1]))
+			;//afficherErrnoCd();
+	}
+	
+}
+
+void
+commandeCdir(int argc,char **argv){
+	if(argc > 1){
+		fprintf(stderr,"Erreur,cette commande ne prend aucun argument.");
+	}else {
+		char tampon[256];
+        getcwd(tampon,256);
+        if(tampon != NULL)
+            printf("Répertoire courant : %s \n", tampon);
+        else
+            ;//afficherErrnoCdir();
+	}
+	
+}
+
+void
+commandeExit(int argc,char **argv){
+	if(argc > 1){
+		fprintf(stderr,"Erreur,cette commande ne prend aucun argument.");
+	}else {
+		kill(getpid(),SIGKILL);
+		exit(0);
+	}
+	
 }

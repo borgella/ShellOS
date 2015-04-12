@@ -1,6 +1,7 @@
 #ifndef UTIL_H
 #define UTIL_H
 #include <sys/types.h>
+
 int
 nombreDeCaractereSaisi(char *tampon);
 
@@ -27,6 +28,16 @@ int
 estDansLaListeDOptions(char *chaine);
 
 void
-afficherArgum(char **argu,int taille);
+executerCommandeTsh(int argc,char **argv);	
+
+void
+commandeCd(char **argv);
+
+void
+commandeCdir(char **argv);
+
+void
+commandeExit(char **argv);
+
 
 #endif
