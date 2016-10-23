@@ -73,83 +73,106 @@ caractereValide(char *tampon,int indiceTampon){
 
 void
 afficherTurboShell(char *tampon){
-    if (tampon[0] != '\n')
+    if (tampon[0] != '\n'){
         printf("tsh>");
+        
+    }
 }
 
 int
 commandeValide(char **tampon,int taille){
-		if (taille <= 1)
-			return estDansLaListeDeCommande(tampon[0]);
-		else if(strncmp(tampon[0],"list",4) == 0)
-			return estDansLaListeDOptions(tampon[1]);
-	return 1;
+	int validerCommande = 0;
+	if(estDansLaListeDeCommande(tampon[0])){
+		if(strcmp(tampon[0],"fin") == 0){
+			validerCommande = validerFin(tampon[1]);
+		}else if(strcmp(tampon[0],"list") == 0 && taille >= 2){
+			validerCommande = validerListe(tampon[1]);
+		}else{ validerCommande = 1; }
+	}
+	return validerCommande;
 }
 
 int
 estDansLaListeDeCommande(char *uneCommande){
-    int i = 0,taille = 8;
-	char *listeCommande[] = {"lc","list","size","new","newdir",
-							 "rmall","edit","fin",NULL};
+    int i = 0,taille = 11;
+	char *listeCommande[] = {"list","size","cdir","cd","new","newdir",
+							 "rmall","exit","edit","fin","lc",NULL};
+							 
 	while(listeCommande[i]!= NULL){
-		if((strcmp(listeCommande[i],uneCommande) == 0))
-		 	 break;
-		i++;	
+	  if((strcmp(listeCommande[i],uneCommande) == 0))
+			break;
+	  i++;	
 	}						 
 	return i < taille;
 }
-
+int validerFin(char *tampon){
+	return atoi(tampon) > 0;
+}
 
 int
-estDansLaListeDOptions(char *chaine){
+validerListe(char *chaine){
     return (strncmp(chaine,"-d",2) == 0);
 }
-
-void
-executerCommandeTsh(int argc,char **argv){
-	printf("Verifions la taille %d\n",argc);
-	if(strcmp(argv[0],"cd") == 0){
-		commandeCd(argv);
-	}else if(strcmp(argv[0],"cdir") == 0){
-		commandeCdir(argv);
-	}else if (strcmp(argv[0],"exit") == 0){
-		commandeExit(argv);
+int
+estUneCommandeTsh(char *commande){
+    return ((strcmp(commande,"cd") == 0) || (strcmp(commande,"cdir") == 0) 
+			|| (strcmp(commande,"exit") == 0));
+}
+int
+commandeCd(char *folder,char *name){
+	int retour = 0;
+	DIR *repertoire;
+    struct dirent *dp;
+    int true;
+    if ((repertoire = opendir(folder)) != NULL) {
+        chdir(folder);
+        while ((dp = readdir(repertoire))!= NULL) {
+            true = strcmp(dp->d_name,".") != 0;
+            if(true) {
+				if(strcmp(dp->d_name,name)==0){
+					chdir(name);
+					retour++;
+					break;
+				}
+            }
+        }
+    }
+    closedir(repertoire);	
+	return retour;
+}
+int
+aUneIndirection(char **arguments){
+	int i = 0,indirection = 0;
+    while(arguments[i]!= NULL){
+	  if((strcmp(arguments[i],">") == 0) || (strcmp(arguments[i],"<") == 0))
+			indirection++;
+	  i++;	
 	}
-}	
+	return indirection > 0 ;
+}
 
-void
-commandeCd(int argc,char **argv){
-	if(argc < 2 || argc > 2){
-		fprintf(stderr,"Erreur,cette commande exige un et un seul argument.");
-	}else {
-		if(chdir(argv[1]))
-			;//afficherErrnoCd();
+char*
+trouverIndirection(char **arguments){
+	char *indirection;
+	int i = 0;
+    while(arguments[i]!= NULL){
+	  if((strcmp(arguments[i],">") == 0) || (strcmp(arguments[i],"<") == 0)){
+		 indirection = arguments[i];
+		 break;
+	  }
+	  i++;	
 	}
-	
+	return indirection ;
 }
 
 void
-commandeCdir(int argc,char **argv){
-	if(argc > 1){
-		fprintf(stderr,"Erreur,cette commande ne prend aucun argument.");
-	}else {
-		char tampon[256];
-        getcwd(tampon,256);
-        if(tampon != NULL)
-            printf("Répertoire courant : %s \n", tampon);
-        else
-            ;//afficherErrnoCdir();
+setIndirectionDuProgramme(char *indirection,char **arguments,int taille){
+	if(strcmp(indirection,">") == 0){
+		 freopen(arguments[taille-1],"w+",stdout);
+	}else{
+		freopen(arguments[1],"w+",stdin);
 	}
-	
 }
 
-void
-commandeExit(int argc,char **argv){
-	if(argc > 1){
-		fprintf(stderr,"Erreur,cette commande ne prend aucun argument.");
-	}else {
-		kill(getpid(),SIGKILL);
-		exit(0);
-	}
-	
-}
+
+

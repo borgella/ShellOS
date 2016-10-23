@@ -15,29 +15,22 @@ void
 createFile(char *tampon,char **arguments,int taille);
 
 int main(int agrc, char*argv[]){
-    int etat;
-    errno = 0;
-    if(fork()){
-         wait(&etat);
-    }else{
-         char **arguments;
-         int reussite;
-         int taille = tailleTableauDArguments(argv[1])-1 ;
-         char tampon[256];
-         getcwd(tampon,256);
-         arguments = creerArguments(argv[1]);
-         if(taille == 0){
-			  chdir(arguments[taille-1]);
-              reussite = open(arguments[taille],0777);
-              if(reussite == -1)
-                   fprintf(stderr,"Impossible de créer le fichier.\n");
-			  else
-				   printf("Fichier crée.\n");
-         }else{
+    char **arguments;
+    int reussite;
+    int taille = tailleTableauDArguments(argv[1]) ;
+    char tampon[256];
+    getcwd(tampon,256);
+    arguments = creerArguments(argv[1]);
+    if(taille == 1){
+	    chdir(arguments[taille-2]);
+        reussite = open(arguments[taille-1],0777);
+        if(reussite == -1)
+            fprintf(stderr,"Impossible de créer le fichier.\n");
+		else
+		   printf("Fichier crée.\n");
+        }else{
 			createFile(tampon,arguments,taille);	
-         }
-     }
-
+        }
    return 0;
 }
 

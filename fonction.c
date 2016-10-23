@@ -14,22 +14,11 @@
 void
 afficherErrnoCd(){
     if(errno == EACCES){ fprintf(stderr,"Permission Insuffisantes.\n");
-    }else if(errno == ENOENT){  fprintf(stderr,"cd /inexistant \nRépertoire introuvable\n");
+    }else if(errno == ENOENT) {  fprintf(stderr,"cd /inexistant \nRépertoire introuvable\n");
     }else if(errno == ENOTDIR){ fprintf(stderr,"Un des chemins n'est pas un répertoire.\n");
-    }else if(errno == ENOMEM){  fprintf(stderr,"Il n'y a pas assez de memoire pour allouer une structure.\n");
+    }else if(errno == ENOMEM) {  fprintf(stderr,"Il n'y a pas assez de memoire pour allouer une structure.\n");
     }else if(errno == ENAMETOOLONG){ fprintf(stderr,"L'argument est trop long que le chemin.\n");
-    }else if(errno == ELOOP){  fprintf(stderr,"Trop de niveaux de liens ou de préfixes.\n");
-    }
-}
-
-void
-afficherErrnoCdir(){
-    if(errno == EACCES){       fprintf(stderr,"Impossible de lire le chemin.\n");
-    }else if(errno == ENOENT){ fprintf(stderr,"cd /inexistant \nRépertoire introuvable\n");
-    }else if(errno == EFAULT){ fprintf(stderr,"Le tampon pointe sur une addresse illégale.\n");
-    }else if(errno == EINVAL){ fprintf(stderr,"Le tampon pointe sur une adresse null.\n");
-    }else if(errno == ENAMETOOLONG){ fprintf(stderr,"L'argument est trop long que le chemin.\n");
-    }else if(errno == ELOOP){ fprintf(stderr,"Trop de niveaux de liens ou préfixes.\n");
+    }else if(errno == ELOOP)  {  fprintf(stderr,"Trop de niveaux de liens ou de préfixes.\n");
     }
 }
 
@@ -42,7 +31,7 @@ liste(char *tampon){
        while((dp = readdir(repertoire)) != NULL){
             true = strcmp(dp->d_name,"..") != 0 && strcmp(dp->d_name,".") != 0;
             if(true)
-                printf("%s\n",dp->d_name);
+               printf("%s\n",dp->d_name);
         }
     }
    closedir(repertoire);
@@ -55,7 +44,6 @@ listeAvecMoinsD(char *tampon){
    struct stat infos;
    int true;
    if((repertoire = opendir(tampon)) != NULL){
-      printf("%s\n",tampon);
       true = chdir(tampon);
       if(!true){
           while((dp = readdir(repertoire)) != NULL){

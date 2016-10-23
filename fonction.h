@@ -48,4 +48,13 @@ nombreFichiers(char *folder);
 void
 createFolder(char* tampon,char **arguments,int taille);
 
+int
+trouverLeFichierACompter(char *folder,char *name);
+
+int 
+nombreLigne(FILE *fichier);
+
+void
+afficherNombreDeLignes(int debut,FILE *fichier);
+
 #endif

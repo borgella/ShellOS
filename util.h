@@ -1,7 +1,6 @@
 #ifndef UTIL_H
 #define UTIL_H
 #include <sys/types.h>
-
 int
 nombreDeCaractereSaisi(char *tampon);
 
@@ -25,19 +24,30 @@ int
 estDansLaListeDeCommande(char * chaine);
 
 int
-estDansLaListeDOptions(char *chaine);
+validerListe(char *tampon);
+
+int
+validerFin(char *tampon);
+
+int
+estUneCommandeTsh(char *commande);
+
+int
+commandeCd(char *folder,char *name);
+
+void 
+commandeExit();
+
+int
+aUneIndirection(char **arguments);
+
+char*
+trouverIndirection(char **arguments);
 
 void
-executerCommandeTsh(int argc,char **argv);	
+setIndirectionDuProgramme(char *indirection,char **arguments,int tailleCommande);
 
-void
-commandeCd(char **argv);
 
-void
-commandeCdir(char **argv);
-
-void
-commandeExit(char **argv);
 
 
 #endif
